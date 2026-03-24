@@ -18,7 +18,7 @@ from diagrams.onprem.workflow import Airflow
 from diagrams.onprem.iac import Terraform
 from diagrams.custom import Custom
 
-OUT = "/home/houta/Projects/aws_fintech_enterprise/upwork_media/00_architecture_diagram"
+OUT = "/home/houta/Projects/aws_pemo/upwork_media/00_architecture_diagram"
 STREAMLIT_ICON = "/tmp/streamlit_icon.png"
 
 # ── Reference-matching styles ────────────────────────────────────────────────
@@ -34,9 +34,9 @@ MODULE = {
     "margin": "24",
 }
 
-THIN = {"color": "#94A3B8", "penwidth": "1.5"}
+THIN = {"color": "#94A3B8", "penwidth": "1.5", "minlen": "2"}
 LABEL = {"fontsize": "9", "fontcolor": "#64748B", "fontname": "Helvetica"}
-INVIS = {"style": "invis", "minlen": "1"}
+INVIS = {"style": "invis", "minlen": "2"}
 
 with Diagram(
     "",
@@ -46,9 +46,9 @@ with Diagram(
     outformat="png",
     graph_attr={
         "bgcolor": "white",
-        "pad": "1.2",
-        "ranksep": "1.6",
-        "nodesep": "1.0",
+        "pad": "1.8",
+        "ranksep": "2.2",
+        "nodesep": "1.4",
         "fontname": "Helvetica-Bold",
         "fontsize": "22",
         "fontcolor": "#0F172A",
