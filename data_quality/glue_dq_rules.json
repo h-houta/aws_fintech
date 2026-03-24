@@ -1,0 +1,80 @@
+{
+  "Name": "fintech-enterprise-data-quality-ruleset",
+  "Description": "Data quality checks for Fintech Enterprise fintech pipeline — enforces referential integrity, value constraints, and business rules",
+  "Ruleset": [
+    {
+      "Name": "transactions_no_null_card_id",
+      "Description": "Every transaction must have a card_id",
+      "Rule": "ColumnValues \"card_id\" IsComplete",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "transactions_positive_settled_amount",
+      "Description": "SETTLED transactions must have billing_amount > 0",
+      "Rule": "ColumnValues \"billing_amount\" > 0 WHERE \"status\" = 'SETTLED'",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "transactions_valid_currency",
+      "Description": "transaction_currency must be one of the approved currency codes",
+      "Rule": "ColumnValues \"transaction_currency\" IN ['AED', 'USD', 'EGP', 'GBP', 'EUR', 'SAR', 'KWD']",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "transactions_no_duplicate_ids",
+      "Description": "transaction id must be unique across all rows",
+      "Rule": "IsUnique \"id\"",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "transactions_card_id_referential_integrity",
+      "Description": "Every card_id in transactions must exist in the cards table",
+      "Rule": "ReferentialIntegrity \"card_id\" \"fintech_enterprise_catalog\".\"cards\" \"card_id\"",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "cards_holder_referential_integrity",
+      "Description": "Every card_holder_id in cards must exist in users",
+      "Rule": "ReferentialIntegrity \"card_holder_id\" \"fintech_enterprise_catalog\".\"users\" \"id\"",
+      "Table": "cards",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "clearing_settlement_after_transaction",
+      "Description": "settlement_date must be >= transaction_timestamp (no retroactive settlements)",
+      "Rule": "ColumnValues \"settlement_date\" >= \"transaction_timestamp\"",
+      "Table": "clearing",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "clearing_no_duplicate_transaction_ids",
+      "Description": "transaction_id in clearing must be unique",
+      "Rule": "IsUnique \"transaction_id\"",
+      "Table": "clearing",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "transactions_valid_dr_cr",
+      "Description": "dr_cr must be either DEBIT or CREDIT",
+      "Rule": "ColumnValues \"dr_cr\" IN ['DEBIT', 'CREDIT']",
+      "Table": "transactions",
+      "Database": "fintech_enterprise_catalog"
+    },
+    {
+      "Name": "cards_valid_status",
+      "Description": "card status must be ACTIVE or TERMINATED",
+      "Rule": "ColumnValues \"status\" IN ['ACTIVE', 'TERMINATED']",
+      "Table": "cards",
+      "Database": "fintech_enterprise_catalog"
+    }
+  ],
+  "Tags": {
+    "Project": "fintech-enterprise-aws-pipeline",
+    "Environment": "dev"
+  }
+}

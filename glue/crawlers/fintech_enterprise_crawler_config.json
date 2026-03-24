@@ -1,0 +1,27 @@
+{
+  "Name": "fintech-enterprise-raw-crawler",
+  "Description": "Crawls raw Fintech Enterprise CSV files and registers schemas in Glue Data Catalog",
+  "Role": "fintech-enterprise-glue-role",
+  "DatabaseName": "fintech_enterprise_catalog",
+  "Targets": {
+    "S3Targets": [
+      { "Path": "s3://fintech-enterprise-data-lake-raw-{ACCOUNT_ID}/orgs/" },
+      { "Path": "s3://fintech-enterprise-data-lake-raw-{ACCOUNT_ID}/users/" },
+      { "Path": "s3://fintech-enterprise-data-lake-raw-{ACCOUNT_ID}/cards/" },
+      { "Path": "s3://fintech-enterprise-data-lake-raw-{ACCOUNT_ID}/transactions/" },
+      { "Path": "s3://fintech-enterprise-data-lake-raw-{ACCOUNT_ID}/clearing/" }
+    ]
+  },
+  "SchemaChangePolicy": {
+    "UpdateBehavior": "UPDATE_IN_DATABASE",
+    "DeleteBehavior": "DEPRECATE_IN_DATABASE"
+  },
+  "RecrawlPolicy": {
+    "RecrawlBehavior": "CRAWL_NEW_FOLDERS_ONLY"
+  },
+  "Configuration": "{\"Version\":1.0,\"CrawlerOutput\":{\"Partitions\":{\"AddOrUpdateBehavior\":\"InheritFromTable\"},\"Tables\":{\"AddOrUpdateBehavior\":\"MergeNewColumns\"}},\"Grouping\":{\"TableGroupingPolicy\":\"CombineCompatibleSchemas\"}}",
+  "Tags": {
+    "Project": "fintech-enterprise-aws-pipeline",
+    "Environment": "dev"
+  }
+}

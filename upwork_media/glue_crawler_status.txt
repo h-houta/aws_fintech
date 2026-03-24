@@ -1,0 +1,11 @@
+{
+    "Name": "fintech-enterprise-raw-crawler",
+    "State": "READY",
+    "LastCrawl": {
+        "Status": "SUCCEEDED",
+        "LogGroup": "/aws-glue/crawlers",
+        "LogStream": "fintech-enterprise-raw-crawler",
+        "MessagePrefix": "ed3f6a15-f16d-4689-86b1-1dae30da5a04",
+        "StartTime": "2026-03-23T17:27:33+02:00"
+    }
+}

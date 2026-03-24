@@ -1,0 +1,6 @@
+business_name	country	card_type	total_cards	active_cards	terminated_cards	cards_with_transactions	dormant_active_cards	active_rate_pct	utilization_rate_pct	dormancy_rate_pct	total_spend_aed	avg_spend_per_card_aed
+--------------------------------------------------------------------------------------------------------------------------------------------
+business_1	NULL	VIRTUAL	115	51	56	34	23	44.3	66.7	45.1	75393281.00	655593.75
+business_1	NULL	PHYSICAL	37	23	8	17	8	62.2	73.9	34.8	5663002.00	153054.11
+business_2	NULL	VIRTUAL	34	29	2	14	16	85.3	48.3	55.2	2555540.00	75162.94
+business_2	NULL	PHYSICAL	6	3	2	4	0	50.0	133.3	0.0	3637599.00	606266.50

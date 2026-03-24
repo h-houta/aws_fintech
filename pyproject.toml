@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "fintech-enterprise-aws-pipeline"
+version = "0.1.0"
+description = "End-to-end AWS data engineering pipeline for Fintech Enterprise fintech card transactions"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.34",
+    "awswrangler>=3.9",
+    "pandas>=2.2",
+    "pyarrow>=15.0",
+    "pyspark>=3.5",
+    "apache-airflow>=2.9",
+    "apache-airflow-providers-amazon>=8.25",
+    "streamlit>=1.35",
+    "plotly>=5.22",
+    "psycopg2-binary>=2.9",
+    "sqlalchemy>=2.0",
+    "faker>=24.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "black>=24.0",
+    "isort>=5.13",
+    "flake8>=7.0",
+    "mypy>=1.10",
+    "moto[s3,glue,athena,redshift]>=5.0",
+    "chispa>=0.9",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+strict = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--cov=glue --cov=lambda --cov-report=term-missing"

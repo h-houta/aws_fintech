@@ -1,0 +1,11 @@
+{
+    "Subscriptions": [
+        {
+            "SubscriptionArn": "arn:aws:sns:us-east-1:352206182791:fintech-enterprise-pipeline-alerts:9dce3b6e-69c1-4c0f-b13d-e0212b060cce",
+            "Owner": "352206182791",
+            "Protocol": "email",
+            "Endpoint": "houtahassan61@gmail.com",
+            "TopicArn": "arn:aws:sns:us-east-1:352206182791:fintech-enterprise-pipeline-alerts"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+-------------------------------------------
+|                GetTables                |
++-----------------------+-----+-----------+
+|  cards                |  -1 |  csv      |
+|  clearing             |  -1 |  csv      |
+|  curated_cards        |  -1 |  parquet  |
+|  curated_clearing     |  -1 |  parquet  |
+|  curated_orgs         |  -1 |  parquet  |
+|  curated_transactions |  -1 |  parquet  |
+|  curated_users        |  -1 |  parquet  |
+|  orgs                 |  -1 |  csv      |
+|  transactions         |  -1 |  csv      |
+|  users                |  -1 |  csv      |
++-----------------------+-----+-----------+

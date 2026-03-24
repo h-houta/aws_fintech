@@ -1,0 +1,10 @@
+athena_workgroup_name = "fintech-enterprise-workgroup"
+curated_bucket_name = "fintech-enterprise-data-lake-curated-352206182791"
+glue_crawler_name = "fintech-enterprise-raw-crawler"
+glue_database_name = "fintech_enterprise_catalog"
+glue_role_arn = "arn:aws:iam::352206182791:role/fintech-enterprise-glue-role"
+lambda_trigger_arn = "arn:aws:lambda:us-east-1:352206182791:function:fintech-enterprise-s3-glue-trigger"
+raw_bucket_name = "fintech-enterprise-data-lake-raw-352206182791"
+redshift_namespace_id = "fintech-enterprise-ns"
+redshift_workgroup_endpoint = ***REDACTED***
+sns_alert_topic_arn = "arn:aws:sns:us-east-1:352206182791:fintech-enterprise-pipeline-alerts"

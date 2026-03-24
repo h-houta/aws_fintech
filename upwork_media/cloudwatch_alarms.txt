@@ -1,0 +1,8 @@
+------------------------------------------------------------------------------------------
+|                                     DescribeAlarms                                     |
++---------------------------------+-----+----------------------------------------+-------+
+|  billing-alarm-10-usd           |  OK |  EstimatedCharges                      |  10.0 |
+|  billing-alarm-5-usd            |  OK |  EstimatedCharges                      |  5.0  |
+|  billing-alarm-50-usd           |  OK |  EstimatedCharges                      |  50.0 |
+|  fintech-enterprise-glue-transactions-failure |  OK |  glue.driver.aggregate.numFailedTasks  |  1.0  |
++---------------------------------+-----+----------------------------------------+-------+

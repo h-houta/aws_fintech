@@ -1,0 +1,13 @@
+-- Redshift Query: Settlement Lag Analysis
+-- Source: fintech_enterprise_dw.fact_clearing (187 rows)
+
+ merchant_country | transaction_currency | transaction_count | avg_hrs_capture | avg_days_settle | median_days | p95_days | max_days_to_settle
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+              IRL |                  784 |               145 |              -2 |               0 |        -1.0 |      1.0 |                  1
+              ARE |                  784 |                26 |              -2 |               0 |         0.0 |      0.8 |                  1
+              USA |                  840 |                 7 |              -2 |               0 |        -1.0 |      0.4 |                  1
+              IND |                  356 |                 5 |              -2 |              -1 |        -1.0 |     -1.0 |                 -1
+              USA |                  784 |                 1 |              -2 |               0 |         0.0 |      0.0 |                  0
+              BRA |                  986 |                 1 |              -2 |              -1 |        -1.0 |     -1.0 |                 -1
+              DEU |                  840 |                 1 |              -2 |               0 |         0.0 |      0.0 |                  0
+              GBR |                  826 |                 1 |              -2 |               0 |         0.0 |      0.0 |                  0

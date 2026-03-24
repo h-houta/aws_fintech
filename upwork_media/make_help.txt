@@ -1,0 +1,17 @@
+  [36mhelp                [0m Show available targets
+  [36mlint                [0m Run all linters (black check, isort check, flake8, mypy)
+  [36mformat              [0m Auto-format code with black + isort
+  [36mtest                [0m Run unit tests with pytest
+  [36mtest-coverage       [0m Run tests with HTML coverage report
+  [36manonymize           [0m Hash PII in users.csv before any uploads
+  [36minit                [0m Initialize Terraform
+  [36mplan                [0m Terraform plan (dry run)
+  [36mdeploy              [0m Full deploy: Terraform apply + upload raw data + trigger pipeline
+  [36mupload-raw          [0m Upload raw CSVs to S3 raw bucket
+  [36mteardown            [0m Destroy ALL AWS resources (irreversible!)
+  [36mairflow-up          [0m Start Airflow stack in Docker
+  [36mairflow-down        [0m Stop Airflow stack
+  [36mairflow-logs        [0m Tail Airflow scheduler logs
+  [36mdashboard           [0m Launch local Streamlit BI dashboard
+  [36mclean               [0m Remove build artifacts and caches
+  [36minstall-dev         [0m Install all dev dependencies

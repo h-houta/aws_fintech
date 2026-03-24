@@ -1,0 +1,68 @@
+=== Airflow DAG List ===
+dag_id            | fileloc                                | owners        | is_paused
+==================+========================================+===============+==========
+fintech_enterprise_aws_pipeline | /opt/airflow/dags/fintech_enterprise_aws_pipeline.py | fintech-enterprise-data-eng | None     
+                                                                                      
+
+=== DAG Task Tree ===
+<Task(PythonOperator): check_s3_raw>
+    <Task(PythonOperator): run_glue_crawler>
+        <Task(PythonOperator): wait_crawler_complete>
+            <Task(PythonOperator): run_glue_etl.etl_cards>
+                <Task(PythonOperator): run_dq_checks>
+                    <Task(PythonOperator): load_redshift>
+                        <Task(PythonOperator): notify_success>
+            <Task(PythonOperator): run_glue_etl.etl_clearing>
+                <Task(PythonOperator): run_dq_checks>
+                    <Task(PythonOperator): load_redshift>
+                        <Task(PythonOperator): notify_success>
+            <Task(PythonOperator): run_glue_etl.etl_orgs>
+                <Task(PythonOperator): run_dq_checks>
+                    <Task(PythonOperator): load_redshift>
+                        <Task(PythonOperator): notify_success>
+            <Task(PythonOperator): run_glue_etl.etl_transactions>
+                <Task(PythonOperator): run_dq_checks>
+                    <Task(PythonOperator): load_redshift>
+                        <Task(PythonOperator): notify_success>
+            <Task(PythonOperator): run_glue_etl.etl_users>
+                <Task(PythonOperator): run_dq_checks>
+                    <Task(PythonOperator): load_redshift>
+                        <Task(PythonOperator): notify_success>
+
+=== DAG Details ===
+digraph fintech_enterprise_aws_pipeline {
+	graph [label=fintech_enterprise_aws_pipeline labelloc=t rankdir=LR]
+	check_s3_raw [color="#000000" fillcolor="#ffefeb" label=check_s3_raw shape=rectangle style="filled,rounded"]
+	load_redshift [color="#000000" fillcolor="#ffefeb" label=load_redshift shape=rectangle style="filled,rounded"]
+	notify_success [color="#000000" fillcolor="#ffefeb" label=notify_success shape=rectangle style="filled,rounded"]
+	run_dq_checks [color="#000000" fillcolor="#ffefeb" label=run_dq_checks shape=rectangle style="filled,rounded"]
+	run_glue_crawler [color="#000000" fillcolor="#ffefeb" label=run_glue_crawler shape=rectangle style="filled,rounded"]
+	subgraph cluster_run_glue_etl {
+		color="#000000" fillcolor="#6495ed7f" label=run_glue_etl shape=rectangle style=filled
+		"run_glue_etl.upstream_join_id" [color="#000000" fillcolor=CornflowerBlue height=0.2 label="" shape=circle style="filled,rounded" width=0.2]
+		"run_glue_etl.downstream_join_id" [color="#000000" fillcolor=CornflowerBlue height=0.2 label="" shape=circle style="filled,rounded" width=0.2]
+		"run_glue_etl.etl_cards" [color="#000000" fillcolor="#ffefeb" label=etl_cards shape=rectangle style="filled,rounded"]
+		"run_glue_etl.etl_clearing" [color="#000000" fillcolor="#ffefeb" label=etl_clearing shape=rectangle style="filled,rounded"]
+		"run_glue_etl.etl_orgs" [color="#000000" fillcolor="#ffefeb" label=etl_orgs shape=rectangle style="filled,rounded"]
+		"run_glue_etl.etl_transactions" [color="#000000" fillcolor="#ffefeb" label=etl_transactions shape=rectangle style="filled,rounded"]
+		"run_glue_etl.etl_users" [color="#000000" fillcolor="#ffefeb" label=etl_users shape=rectangle style="filled,rounded"]
+	}
+	wait_crawler_complete [color="#000000" fillcolor="#ffefeb" label=wait_crawler_complete shape=rectangle style="filled,rounded"]
+	check_s3_raw -> run_glue_crawler
+	load_redshift -> notify_success
+	run_dq_checks -> load_redshift
+	run_glue_crawler -> wait_crawler_complete
+	"run_glue_etl.downstream_join_id" -> run_dq_checks
+	"run_glue_etl.etl_cards" -> "run_glue_etl.downstream_join_id"
+	"run_glue_etl.etl_clearing" -> "run_glue_etl.downstream_join_id"
+	"run_glue_etl.etl_orgs" -> "run_glue_etl.downstream_join_id"
+	"run_glue_etl.etl_transactions" -> "run_glue_etl.downstream_join_id"
+	"run_glue_etl.etl_users" -> "run_glue_etl.downstream_join_id"
+	"run_glue_etl.upstream_join_id" -> "run_glue_etl.etl_cards"
+	"run_glue_etl.upstream_join_id" -> "run_glue_etl.etl_clearing"
+	"run_glue_etl.upstream_join_id" -> "run_glue_etl.etl_orgs"
+	"run_glue_etl.upstream_join_id" -> "run_glue_etl.etl_transactions"
+	"run_glue_etl.upstream_join_id" -> "run_glue_etl.etl_users"
+	wait_crawler_complete -> "run_glue_etl.upstream_join_id"
+}
+

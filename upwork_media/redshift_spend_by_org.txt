@@ -1,0 +1,4 @@
+business_name	country	total_transactions	unique_cards_used	total_spend_aed	total_spend_usd	avg_transaction_aed	settled_aed	refunded_aed	declined_count	decline_rate_pct
+--------------------------------------------------------------------------------------------------------------------------------------------
+business_1	NULL	501	51	81972881.00	22321215.50	144828.41	81056283.00	916598.00	0	0.00
+business_2	NULL	100	18	6204612.00	1689515.85	50037.19	6193139.00	11473.00	0	0.00

@@ -1,0 +1,38 @@
+=== fintech-enterprise-glue-role ===
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "AWSGlueServiceRole",
+            "PolicyArn": "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+        }
+    ]
+}
+{
+    "PolicyNames": [
+        "fintech-enterprise-glue-s3-access"
+    ]
+}
+=== fintech-enterprise-redshift-role ===
+{
+    "AttachedPolicies": []
+}
+{
+    "PolicyNames": [
+        "fintech-enterprise-redshift-lakeformation",
+        "fintech-enterprise-redshift-s3-access"
+    ]
+}
+=== fintech-enterprise-lambda-role ===
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "AWSLambdaBasicExecutionRole",
+            "PolicyArn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        }
+    ]
+}
+{
+    "PolicyNames": [
+        "fintech-enterprise-lambda-glue-sns"
+    ]
+}

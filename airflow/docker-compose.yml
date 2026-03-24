@@ -1,0 +1,126 @@
+# Airflow 2.9 — Local Docker Compose for Fintech Enterprise AWS Pipeline
+# Runs: webserver, scheduler, triggerer, postgres (metadata DB), redis (celery broker)
+#
+# Usage:
+#   make airflow-up    → docker compose up -d
+#   make airflow-down  → docker compose down
+#   UI: http://localhost:8080  (admin / admin)
+#
+# AWS credentials are passed via .env file (never committed — in .gitignore)
+# Create .env from .env.example before starting:
+#   cp .env.example .env && vim .env
+
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.9.1-python3.11
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ""
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__MIN_SERIALIZED_DAG_UPDATE_INTERVAL: "10"
+    AIRFLOW__CORE__MIN_SERIALIZED_DAG_FETCH_INTERVAL: "10"
+    AIRFLOW_DEMO_MODE: "false"
+    AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth"
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    # AWS config (populated from .env)
+    AWS_REGION: ${AWS_REGION:-us-east-1}
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+    # Fintech Enterprise pipeline config
+    RAW_BUCKET: ${RAW_BUCKET:-fintech-enterprise-data-lake-raw}
+    CURATED_BUCKET: ${CURATED_BUCKET:-fintech-enterprise-data-lake-curated}
+    GLUE_CRAWLER_NAME: ${GLUE_CRAWLER_NAME:-fintech-enterprise-raw-crawler}
+    GLUE_JOB_TRANSACTIONS: ${GLUE_JOB_TRANSACTIONS:-fintech-enterprise-transform-transactions}
+    GLUE_JOB_CLEARING: ${GLUE_JOB_CLEARING:-fintech-enterprise-transform-clearing}
+    GLUE_JOB_CARDS: ${GLUE_JOB_CARDS:-fintech-enterprise-transform-cards}
+    GLUE_JOB_USERS: ${GLUE_JOB_USERS:-fintech-enterprise-transform-users}
+    GLUE_JOB_ORGS: ${GLUE_JOB_ORGS:-fintech-enterprise-transform-orgs}
+    SNS_ALERT_TOPIC_ARN: ${SNS_ALERT_TOPIC_ARN:-}
+    REDSHIFT_WORKGROUP: ${REDSHIFT_WORKGROUP:-fintech-enterprise-wg}
+    REDSHIFT_DATABASE: ${REDSHIFT_DATABASE:-fintech_enterprise_dw}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ../redshift/etl/copy_from_s3.sql:/opt/airflow/dags/copy_from_s3.sql:ro
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on: &airflow-common-depends-on
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: always
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: always
+
+  airflow-triggerer:
+    <<: *airflow-common
+    command: triggerer
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: always
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate
+        airflow users create \
+          --username admin \
+          --firstname Fintech Enterprise \
+          --lastname DataEng \
+          --role Admin \
+          --email admin@fintech-enterprise.io \
+          --password admin
+        echo "Airflow initialized — UI available at http://localhost:8080"
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+    user: "0:0"
+
+volumes:
+  postgres-db-volume:

@@ -1,0 +1,39 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0 -- /home/houta/Projects/aws_fintech_enterprise/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/houta/Projects/aws_fintech_enterprise
+configfile: pyproject.toml
+plugins: cov-7.1.0
+collecting ... collected 19 items
+
+tests/test_dq_rules.py::TestTransactionDQRules::test_no_null_card_ids PASSED [  5%]
+tests/test_dq_rules.py::TestTransactionDQRules::test_settled_positive_amount PASSED [ 10%]
+tests/test_dq_rules.py::TestTransactionDQRules::test_valid_currency_codes PASSED [ 15%]
+tests/test_dq_rules.py::TestTransactionDQRules::test_no_duplicate_transaction_ids PASSED [ 21%]
+tests/test_dq_rules.py::TestTransactionDQRules::test_valid_dr_cr_values PASSED [ 26%]
+tests/test_dq_rules.py::TestTransactionDQRules::test_referential_integrity_card_ids PASSED [ 31%]
+tests/test_dq_rules.py::TestClearingDQRules::test_settlement_after_transaction PASSED [ 36%]
+tests/test_dq_rules.py::TestClearingDQRules::test_no_duplicate_clearing_transaction_ids PASSED [ 42%]
+tests/test_dq_rules.py::TestCardsDQRules::test_valid_card_status PASSED  [ 47%]
+tests/test_transforms.py::TestTransformTransactions::test_merchant_normalization_known_merchant PASSED [ 52%]
+tests/test_transforms.py::TestTransformTransactions::test_city_normalization_trims_whitespace PASSED [ 57%]
+tests/test_transforms.py::TestTransformTransactions::test_usd_conversion_aed PASSED [ 63%]
+tests/test_transforms.py::TestTransformTransactions::test_usd_conversion_usd_passthrough PASSED [ 68%]
+tests/test_transforms.py::TestTransformTransactions::test_invalid_currencies_filtered PASSED [ 73%]
+tests/test_transforms.py::TestTransformTransactions::test_partition_columns_added PASSED [ 78%]
+tests/test_transforms.py::TestTransformUsers::test_email_pii_removed PASSED [ 84%]
+tests/test_transforms.py::TestTransformUsers::test_email_hash_deterministic PASSED [ 89%]
+tests/test_transforms.py::TestTransformUsers::test_email_hash_case_insensitive PASSED [ 94%]
+tests/test_transforms.py::TestTransformCards::test_card_type_uppercased PASSED [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+glue/etl/transform_cards.py             33     24    27%   21, 44-58, 62-83
+glue/etl/transform_transactions.py      57     29    49%   98, 132-154, 158-180
+glue/etl/transform_users.py             33     24    27%   35, 45-55, 59-80
+------------------------------------------------------------------
+TOTAL                                  123     77    37%
+============================== 19 passed in 8.66s ==============================

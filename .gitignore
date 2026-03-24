@@ -1,0 +1,56 @@
+# ── Secrets & credentials (NEVER commit) ─────────────────────────────────────
+.env
+.env.*
+*.credentials*
+*credentials*.csv
+terraform.tfvars
+terraform.tfvars.json
+*.pem
+*.key
+
+# ── Terraform state & local files ────────────────────────────────────────────
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/*.tfplan
+terraform/.terraform.lock.hcl
+
+# ── Python ───────────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# ── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Lambda zip ───────────────────────────────────────────────────────────────
+lambda/s3_trigger.zip
+
+# ── Airflow local state ─────────────────────────────────────────────────────
+airflow/logs/
+airflow/plugins/__pycache__/
+airflow/.env
+
+# ── AI tooling config ───────────────────────────────────────────────────────
+.claude*
+
+# ── Pytest cache & coverage ─────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Artifacts (working files, not portfolio) ────────────────────────────────
+artifacts/
+
+# ── HTML source files (extracted images already saved) ──────────────────────
+upwork_media/aws_screenshots/*.html

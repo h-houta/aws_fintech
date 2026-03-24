@@ -1,0 +1,12 @@
+merchant_name	merchant_country	mcc	transaction_count	unique_cards	total_spend_aed	total_spend_usd	avg_transaction_aed
+--------------------------------------------------------------------------------------------------------------------------------------------
+Google*ads1909436725	IRL	7311	23	1	3984628.0	1085014.2	173244.7
+Amazon Retail	ARE	5411	3	3	1649700.0	449213.31	549900.0
+Notion Labs, Inc.	USA	7372	6	3	1577365.0	429516.49	262894.17
+Smart Dubai Government	ARE	9399	27	10	1296000.0	352900.8	48000.0
+Aws Emea	LUX	7399	19	1	1255293.0	341816.28	66068.05
+Amzn Mktp Es*1k76a7bj4	LUX	5999	1	1	1047639.0	285272.1	1047639.0
+Hs_ireland	IRL	7372	5	1	878920.0	239329.92	175784.0
+Difc Investment Ltd	ARE	9399	2	2	860000.0	234178.0	430000.0
+Du Registered	ARE	4814	3	2	797071.0	217042.43	265690.33
+Maqsam	EST	5734	5	2	735520.0	200282.1	147104.0
